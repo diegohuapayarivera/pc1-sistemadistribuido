@@ -25,7 +25,7 @@ public class ProductoRepository {
     public int insertarProducto(Integer idProducto, CrearProductoRequest request) {
         String sql = """
                 INSERT INTO productos
-                (IdProducto, NombreProducto, IdProveedor, IdCategoria, CantidadPorUnidad,
+                (IdProducto, NombreProducto, IdProveedor, IdCategoría, CantidadPorUnidad,
                  PrecioUnidad, UnidadesEnExistencia, UnidadesEnPedido, NivelNuevoPedido, Suspendido)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
@@ -47,7 +47,7 @@ public class ProductoRepository {
 
     public Optional<ProductoResponse> buscarPorId(Integer idProducto) {
         String sql = """
-                SELECT IdProducto, NombreProducto, IdProveedor, IdCategoria, CantidadPorUnidad,
+                SELECT IdProducto, NombreProducto, IdProveedor, IdCategoría, CantidadPorUnidad,
                        PrecioUnidad, UnidadesEnExistencia, UnidadesEnPedido, NivelNuevoPedido, Suspendido
                 FROM productos
                 WHERE IdProducto = ?
@@ -59,7 +59,7 @@ public class ProductoRepository {
                         rs.getInt("IdProducto"),
                         rs.getString("NombreProducto"),
                         rs.getInt("IdProveedor"),
-                        rs.getInt("IdCategoria"),
+                        rs.getInt("IdCategoría"),
                         rs.getString("CantidadPorUnidad"),
                         rs.getDouble("PrecioUnidad"),
                         rs.getInt("UnidadesEnExistencia"),
@@ -75,7 +75,7 @@ public class ProductoRepository {
 
     public List<ProductoResponse> listarProductos() {
         String sql = """
-                SELECT IdProducto, NombreProducto, IdProveedor, IdCategoria, CantidadPorUnidad,
+                SELECT IdProducto, NombreProducto, IdProveedor, IdCategoría, CantidadPorUnidad,
                        PrecioUnidad, UnidadesEnExistencia, UnidadesEnPedido, NivelNuevoPedido, Suspendido
                 FROM productos
                 ORDER BY IdProducto
@@ -87,7 +87,7 @@ public class ProductoRepository {
                         rs.getInt("IdProducto"),
                         rs.getString("NombreProducto"),
                         rs.getInt("IdProveedor"),
-                        rs.getInt("IdCategoria"),
+                        rs.getInt("IdCategoría"),
                         rs.getString("CantidadPorUnidad"),
                         rs.getDouble("PrecioUnidad"),
                         rs.getInt("UnidadesEnExistencia"),

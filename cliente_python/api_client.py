@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8080/api"
+BASE_URL = "http://34.134.146.159:8080/api"
 
 # ── Timeout global para todas las peticiones ─────────────────────────────────
 TIMEOUT = 10
@@ -40,10 +40,19 @@ def registrar_pedido(data: dict) -> dict:
 
 # ─────────────────────────────── HEALTH ──────────────────────────────────────
 
-def ping() -> bool:
-    """Verifica si la API está disponible."""
+def ping() -> tuple[bool, str]:
+    """Verifica si la API está disponible y devuelve su estado."""
     try:
         r = requests.get(f"{BASE_URL}/productos", timeout=3)
-        return r.status_code == 200
-    except Exception:
-        return False
+        if r.status_code == 200:
+            return True, "🟢 API Online"
+        elif r.status_code == 500:
+            return False, "🟠 Servidor Online pero con Error Interno (500)"
+        else:
+            return False, f"🔴 Error del Servidor: {r.status_code}"
+    except requests.exceptions.ConnectionError:
+        return False, "🔴 No se pudo conectar al servidor (URL incorrecta o Down)"
+    except requests.exceptions.Timeout:
+        return False, "⌛ Tiempo de espera agotado"
+    except Exception as e:
+        return False, f"❌ Error: {str(e)}"

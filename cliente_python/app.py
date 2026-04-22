@@ -22,13 +22,16 @@ st.sidebar.title("🌊 Neptuno API")
 st.sidebar.markdown("Cliente para conectar con Lab5 (Spring Boot).")
 
 # Verificar si la API está accesible
-api_online = api_client.ping()
+api_online, status_msg = api_client.ping()
 
 if api_online:
-    st.sidebar.success("🟢 API Online y respondiendo")
+    st.sidebar.success(status_msg)
 else:
-    st.sidebar.error("🔴 API Offline o inalcanzable")
-    st.error("No se puede conectar al servidor en localhost:8080. Por favor, asegúrate de haber ejecutado `./mvnw spring-boot:run`")
+    st.sidebar.error(status_msg)
+    if "500" in status_msg:
+        st.error(f"El servidor respondió: {status_msg}. Esto suele significar un error en la base de datos del VPS.")
+    else:
+        st.error(f"No se puede conectar al servidor en http://34.134.146.159:8080. {status_msg}")
     st.stop()
 
 menu = st.sidebar.radio(
