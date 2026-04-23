@@ -96,5 +96,16 @@ El cliente Python incluye una lógica de verificación de estado (Ping) que perm
 
 ---
 
+## 🛡️ Principios ACID y Transaccionalidad
+
+El sistema garantiza la integridad de los datos mediante el cumplimiento de las propiedades ACID, especialmente en el proceso de **Registro de Pedidos**:
+
+1.  **Atomicidad (Atomicity):** Gracias a la anotación `@Transactional` en `PedidoService`, el registro de la cabecera del pedido y todos sus detalles se trata como una única unidad. Si falla la validación de stock de un solo producto, se revierte toda la operación (Rollback).
+2.  **Consistencia (Consistency):** Se aplican reglas de negocio estrictas antes de cualquier inserción. El sistema asegura que los clientes y productos existan, y que el stock nunca sea negativo, manteniendo la base de datos en un estado válido.
+3.  **Aislamiento (Isolation):** Se implementa un mecanismo de **bloqueo selectivo** (`FOR UPDATE`) al consultar el stock. Esto evita que transacciones concurrentes intenten vender el mismo inventario simultáneamente.
+4.  **Durabilidad (Durability):** Una vez confirmada la transacción, los cambios se persisten de forma permanente en el almacenamiento físico de la base de datos MySQL en el VPS.
+
+---
+
 ## 👨‍💻 Autor
 Desarrollado para el Laboratorio 5 de Sistemas Distribuidos (UTP).
